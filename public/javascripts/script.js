@@ -1,8 +1,8 @@
  $(document).ready(function(){
-	 var socketio = io.connect('http://localhost:3000');
+	var socketio = io.connect('http://localhost:3000');
     var msgHTML = '';
     var currentUserName = '';
-    var usersDiv = $('#users');
+    var usersDiv = $('.users');
     var messageDiv = $(".message-box");
     var typing = false;
     var timeout = 0;
@@ -33,7 +33,6 @@
             usersDiv.append(`<p>${nameList[i]}</p>`);
         }
     });
-    // console.log(io);
 
     $('#submit-message').submit((e)=>{
         e.preventDefault();
@@ -44,7 +43,6 @@
         });
     });
     socketio.on('newMessage', (newMsgB)=>{
-        console.log(newMsgB);
         messageDiv.append(`<p>${newMsgB}</p>`);
     });
     function timeoutFunction(){
