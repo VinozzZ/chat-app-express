@@ -5,20 +5,23 @@ html
 		script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
 	body
 		div.body-wrapper
-			div.log-in
-				h1 Chat Room
-				form#submit-name
-					input#name(type="text")
-					button(type="submit") Enter
-
-			div.users
-				h2 Connected User
-			div.message-box-wrapper
-				div.message-box
-				div.typing-container
-				div#submit-message-container
+			div.room-name
+				h2 Chat Room
+			div.users-container
+				div.users
+					h2 Connected User
+			div.message-box
+				div.display-msg
+				div.update
+				div.feedback
+			div.inputs-container
+				div.log-in
+					form#submit-name
+						input#name(type="text" placeholder="Your name")
+						button(type="submit") Enter
+				div.submit-message-container
 					form#submit-message
-						input#message(type="text")
-						button(type="submit") Submit
+						input#message(type="text" placeholder="Your message")
+						button(type="submit") Send
 	script(type="text/javascript" src="/socket.io/socket.io.js")
 	script(type="text/javascript" src="/javascripts/script.js")
