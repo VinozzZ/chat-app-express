@@ -10,7 +10,13 @@
         for (let name of list){
             usersDiv.append(`<p>${name}</p>`);
         }
-    })
+    });
+    socketio.on('updateUserListToServer', (list)=>{
+        usersDiv.html("");
+        for (let name of list){
+            usersDiv.append(`<p>${name}</p>`);
+        }
+    });
     $('#submit-name').submit(function(e){
         e.preventDefault();
         currentUserName = $('#name').val();
@@ -53,6 +59,13 @@
     socketio.on('newMsg', (msg)=>{
         messageDiv.append(`<p>${msg}</p>`);
     });
+
+    socketio.on('mention', (bool)=>{
+        console.log(bool);
+        if(bool){
+            messageDiv.css("color", "red");
+        }
+    })
 
     // 'is typing message'
     var typing = false;

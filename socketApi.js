@@ -15,6 +15,16 @@ function limitedChatHistory(chatHistory){
 
 io.on('connect', (client)=>{
     limitedChatHistory(chatHistory);
+    client.on('disconnect', ()=>{
+        if (userArray[client.id]){
+            var index = clients.indexOf(userArray[client.id].name);
+            if (index > -1){
+                clients.splice(index, 1);
+            }
+            io.emit('updateUserListToServer', clients);
+        }
+
+    });
     client.emit('currentUserList', clients);
     client.on('join', (name)=>{
         if(userArray[client.id] == undefined){
@@ -32,6 +42,21 @@ io.on('connect', (client)=>{
         if (data.length > 0){
             if (userArray[client.id] !== undefined){
                 chatHistory.push(`${userArray[client.id].name} says ${data}.`);
+                console.log(data.match(/@+/));
+                if((data.indexOf('@') > -1) && data.match(/@+/) !== null){
+                    var index = data.indexOf('@');
+                    var temp = "";
+                    for (let i = index+1; i < data.length; i++){
+                        temp += data[i];
+                        for (let j = 0; j < clients.length; j++){
+                            console.log(clients[j]);
+                            if(temp == clients[j]){
+                                io.emit('mention', true);
+                                break;
+                            }
+                        }
+                    }
+                }
                 io.emit('newMsg', `${userArray[client.id].name} says ${data}.`);
             }else {
                 client.emit('update', "Please enter your name first.");
@@ -43,7 +68,7 @@ io.on('connect', (client)=>{
     });
 
     client.on('typing', (data)=>{
-        if (data){
+        if (data && userArray[client.id] !== undefined){
             io.emit('typing', `${userArray[client.id].name} is typing a message...`);
         }
     });
