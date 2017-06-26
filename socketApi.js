@@ -27,6 +27,7 @@ io.on('connect', (client)=>{
     });
     client.emit('currentUserList', clients);
     client.on('join', (name)=>{
+        console.log(name);
         if(userArray[client.id] == undefined){
             if (clients.indexOf(name) <= -1){
                 userArray[client.id] = {'name': name};

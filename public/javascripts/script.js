@@ -1,5 +1,5 @@
  $(document).ready(function(){
-	var socketio = io.connect('http://localhost:3000');
+	var socketio = io.connect('http://www.yingrongzhao.com:5000');
     var msgHTML = '';
     var currentUserName = '';
     var usersDiv = $('.users');
@@ -20,6 +20,7 @@
     $('#submit-name').submit(function(e){
         e.preventDefault();
         currentUserName = $('#name').val();
+        console.log(currentUserName);
         if (currentUserName != ""){
             socketio.emit('join', currentUserName);
             $("#message").focus();
